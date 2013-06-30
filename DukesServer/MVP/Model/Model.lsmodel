@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<model dslVersion="1.1.0.0" name="Model" targetNamespace="DukesServer.MVP.Model" databaseProvider="Sqlite3" connectionString="data source=&quot;E:\programming\visual studio\Dukes\DukesServer\DukesAdmin\dukes.db&quot;" pluralizedInDatabase="false" xmlns="http://namespaces.mindscape.co.nz/lightspeed">
+  <entities>
+    <entity name="User" identityType="Guid" cacheExpiry="0" tableName="Users" orderBy="Name ASC" identityColumnName="Id">
+      <entityProperties>
+        <entityProperty name="Name" isNullable="true">
+          <validations>
+            <lengthValidation minimumLength="0" maximumLength="50" />
+          </validations>
+        </entityProperty>
+        <entityProperty name="PasswordHash" isNullable="true">
+          <validations>
+            <lengthValidation minimumLength="0" maximumLength="255" />
+          </validations>
+        </entityProperty>
+      </entityProperties>
+      <oneToManyAssociations>
+        <oneToManyAssociation Id="df9d5031-7ac3-44c8-b73f-654db72fe589" collectionName="QueuedSongs" backreferenceName="User" isNullable="false">
+          <entityMoniker name="/Model/QueuedSong" />
+        </oneToManyAssociation>
+      </oneToManyAssociations>
+    </entity>
+    <entity name="Directory" identityType="Guid" cacheExpiry="0" tableName="Directories" identityColumnName="Id">
+      <entityProperties>
+        <entityProperty name="Path" isNullable="true">
+          <validations>
+            <lengthValidation minimumLength="0" maximumLength="400" />
+          </validations>
+        </entityProperty>
+        <entityProperty name="Name" isNullable="true">
+          <validations>
+            <lengthValidation minimumLength="0" maximumLength="255" />
+          </validations>
+        </entityProperty>
+        <entityProperty name="LastModified" dataType="DateTime" isNullable="true" />
+      </entityProperties>
+      <oneToManyAssociations>
+        <oneToManyAssociation Id="0d2344b5-d876-49a8-8e24-2210c4b78084" collectionName="ChildDirectories" backreferenceName="ParentDirectory" isNullable="true">
+          <entityMoniker name="/Model/Directory" />
+        </oneToManyAssociation>
+        <oneToManyAssociation Id="ba5a5a4b-26cb-48a7-9080-a1f3ebc9fd91" collectionName="Songs" backreferenceName="Directory" isNullable="false">
+          <entityMoniker name="/Model/Song" />
+        </oneToManyAssociation>
+      </oneToManyAssociations>
+    </entity>
+    <entity name="Song" identityType="Guid" cacheExpiry="0" tableName="Songs" identityColumnName="Id">
+      <entityProperties>
+        <entityProperty name="Filename" isNullable="true">
+          <validations>
+            <lengthValidation minimumLength="0" maximumLength="800" />
+          </validations>
+        </entityProperty>
+        <entityProperty name="LastModified" dataType="DateTime" isNullable="true" />
+        <entityProperty name="Size" dataType="Int32" isNullable="true" />
+        <entityProperty name="Title" isNullable="true">
+          <validations>
+            <lengthValidation minimumLength="0" maximumLength="255" />
+          </validations>
+        </entityProperty>
+        <entityProperty name="Artist" isNullable="true">
+          <validations>
+            <lengthValidation minimumLength="0" maximumLength="255" />
+          </validations>
+        </entityProperty>
+        <entityProperty name="Album" isNullable="true">
+          <validations>
+            <lengthValidation minimumLength="0" maximumLength="255" />
+          </validations>
+        </entityProperty>
+        <entityProperty name="TrackNumber" dataType="Int32" isNullable="true" />
+        <entityProperty name="Year" dataType="Int32" isNullable="true" />
+        <entityProperty name="Genre" isNullable="true">
+          <validations>
+            <lengthValidation minimumLength="0" maximumLength="255" />
+          </validations>
+        </entityProperty>
+        <entityProperty name="LengthInSeconds" dataType="Int32" isNullable="true" />
+      </entityProperties>
+    </entity>
+    <entity name="QueuedSong" identityType="Guid" cacheExpiry="0" tableName="QueuedSongs" orderBy="DateAdded DESC" identityColumnName="Id">
+      <entityProperties>
+        <entityProperty name="DateAdded" dataType="DateTime" isNullable="true" />
+      </entityProperties>
+      <targetEntity>
+        <oneToOneAssociation sourceName="QueuedSong" targetName="Song" isSourceNullable="false" isTargetNullable="false">
+          <entityMoniker name="/Model/Song" />
+        </oneToOneAssociation>
+      </targetEntity>
+    </entity>
+  </entities>
+</model>

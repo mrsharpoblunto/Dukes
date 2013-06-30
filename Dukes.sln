@@ -1,0 +1,51 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Icon", "Icon", "{4A2DB827-F080-4C64-B364-2790803E4405}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "connected", "connected", "{37CE46F5-753F-4982-9F32-E0F5DEF0A862}"
+	ProjectSection(SolutionItems) = preProject
+		..\Icon\connected\dukes-connected_256.jpg = ..\Icon\connected\dukes-connected_256.jpg
+		..\Icon\connected\dukes-connected_32_32.ico = ..\Icon\connected\dukes-connected_32_32.ico
+		..\Icon\connected\dukes-connected_32_8.ico = ..\Icon\connected\dukes-connected_32_8.ico
+		..\Icon\connected\dukes-connected_48_32.ico = ..\Icon\connected\dukes-connected_48_32.ico
+		..\Icon\connected\dukes-connected_48_8.ico = ..\Icon\connected\dukes-connected_48_8.ico
+		..\Icon\connected\dukes-installer.jpg = ..\Icon\connected\dukes-installer.jpg
+		..\Icon\connected\dukes-tray-connected.ico = ..\Icon\connected\dukes-tray-connected.ico
+		..\Icon\connected\icobundl.exe = ..\Icon\connected\icobundl.exe
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "disconnected", "disconnected", "{AA433918-1B64-4530-8955-162DB792C397}"
+	ProjectSection(SolutionItems) = preProject
+		..\Icon\disconnected\dukes-disconnected_16_32.ico = ..\Icon\disconnected\dukes-disconnected_16_32.ico
+		..\Icon\disconnected\dukes-disconnected_16_8.ico = ..\Icon\disconnected\dukes-disconnected_16_8.ico
+		..\Icon\disconnected\icobundl.exe = ..\Icon\disconnected\icobundl.exe
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DukesServer", "DukesServer\DukesServer.csproj", "{EE17AED4-638E-4BBA-AFC4-A4E8C96FE3F3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FModPlayer", "FModPlayer\FModPlayer.csproj", "{813C1483-BCBE-4658-B9F7-0AF8445F55EA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EE17AED4-638E-4BBA-AFC4-A4E8C96FE3F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE17AED4-638E-4BBA-AFC4-A4E8C96FE3F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE17AED4-638E-4BBA-AFC4-A4E8C96FE3F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE17AED4-638E-4BBA-AFC4-A4E8C96FE3F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{813C1483-BCBE-4658-B9F7-0AF8445F55EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{813C1483-BCBE-4658-B9F7-0AF8445F55EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{813C1483-BCBE-4658-B9F7-0AF8445F55EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{813C1483-BCBE-4658-B9F7-0AF8445F55EA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{37CE46F5-753F-4982-9F32-E0F5DEF0A862} = {4A2DB827-F080-4C64-B364-2790803E4405}
+		{AA433918-1B64-4530-8955-162DB792C397} = {4A2DB827-F080-4C64-B364-2790803E4405}
+	EndGlobalSection
+EndGlobal

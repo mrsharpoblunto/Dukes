@@ -1,0 +1,415 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+	<head>
+	    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+		<title>Dukes WebUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link type="text/css" href="/bootstrap.min.css" rel="stylesheet" />
+		<link type="text/css" href="/bootstrap-responsive.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="/styles.css" type="text/css" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+	</head>
+	<body>
+		<div class="container">
+			<div class="row">
+				<div class="span12">
+					<div class="page-header">
+						<h1>The Dukebox of Hazzard <small>media server</small></h1>
+					</div>
+				</div>
+			</div>
+			<div class="container">
+				<div class="row">
+					<div class="span12">
+						<div id="error-container" class="alert alert-error">
+							<button type="button" class="close" data-dismiss="alert">&times;</button>
+							<p><strong>An error occurred</strong> <span id="error-content"></span></p>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="span12">
+					<div id="currently-playing-container">
+						<div class="currently-playing-wrapper">
+							<i class="icon-play" id="player-control"></i>
+							<script id="playing-template" type="text/x-handlebars-template">
+								<img />
+								<span class="artist">{{CurrentSong.Song.Artist}}</span><br/><span class="title">{{CurrentSong.Song.Title}}</span><br/><span class="submitter">Submitted by {{CurrentSong.Submitter}}</span>
+							</script>
+							<div id="currently-playing"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="span12">
+					<ul class="nav nav-tabs" id="main-nav">
+						<li><a href="#player">Upcoming <span id="play-count" class="badge badge-info"></span></a></li>
+						<li><a href="#search">Search</a></li>
+						<li><a href="#me">My songs <span id="queue-count" class="badge badge-info"></span></a></li>	
+					</ul>
+				</div>
+			</div>
+			
+			<div class="row">	
+				<div class="span12">
+					<div class="tab-content">
+						
+						<div class="tab-pane" id="player">
+							<div class="row">
+								<div class="span12">
+									<script id="queue-template" type="text/x-handlebars-template">
+										{{#list QueuedSongs}}
+										<li data-song-id="{{Song.Id}}" data-submitter="{{Submitter}}" class="clearfix">
+										<img />
+										<div><span class="artist">{{Song.Artist}}</span><br /><span class="title">{{Song.Title}}</span><br /><span class="submitter">Submitted by {{Submitter}}</span></div>
+										</li>
+										{{/list}}
+									</script>
+									<div id="queue">
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="tab-pane active" id="search">
+							<div class="row">
+								<div class="span12">
+									<form>
+										<fieldset>
+											<legend>Search for music to play</legend>
+											<input class="span12" placeholder="Song title" type="text" id="title-textbox" />
+											<input class="span12" placeholder="Artist" type="text" id="artist-textbox" />
+											<input class="span12" placeholder="Album" type="text" id="album-textbox" />
+										</fieldset>
+										<button class="btn btn-primary" type="button" id="search-button">Search</button>
+									</form>
+								</div>
+							</div>
+							<div class="row" id="search-results-container">
+								<div class="span12">
+									<h4>Search Results</h4>
+									<script id="search-template" type="text/x-handlebars-template">
+										{{#list Songs}}
+										<li data-song-id="{{Id}}" class="clearfix">
+										<input type="checkbox" />
+										<img />
+										<div><span class="artist">{{Artist}}</span><br /><span class="album">{{Album}}</span><br /><span class="title">{{Title}}</span></div>
+										<i class="icon-play pull-right add-to-playlist"></i>
+										</li>
+										{{/list}}
+									</script>
+									<div id="search-results">
+									</div>
+									<div class="button-row">
+										<a id="select-all-button" class="btn btn-primary">Select All</a>
+										<a id="add-selected-button" class="btn btn-primary">Play Selected</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="tab-pane" id="me">
+							<div class="row">
+								<div class="span12">
+									<script id="myqueue-template" type="text/x-handlebars-template">
+										{{#list QueuedSongs}}
+										<li data-song-id="{{Song.Id}}" class="clearfix">
+										<img />
+										<div><span class="artist">{{Song.Artist}}</span><br /><span class="title">{{Song.Title}}</span>
+										<a class="remove">Remove</a></div>
+										</li>
+										{{/list}}
+									</script>
+									<div id="my-queue">
+									</div>
+								</div>
+							</div>
+							
+							<div class="row">
+								<div class="span12">
+									<div class="button-row">
+										<a class="btn" id="clear-my-queue-button">Clear Queue</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script type="text/javascript" src="/jquery-2.0.2.min.js"></script>
+		<script type="text/javascript" src="/bootstrap.min.js"></script>  
+		<script type="text/javascript" src="/handlebars-1.0.0.js"></script>  
+		<script type="text/javascript" src="/lastfm.js"></script>  
+		<script type="text/javascript" src="/dukes.js"></script>  
+		
+	    <script type="text/javascript">
+	        var WebUI = function(){
+	            var currentSong = null;
+				var currentPlayerState = 0;
+	            var currentUser = null;
+				var searchTemplate = Handlebars.compile($("#search-template").html());
+				var myQueueTemplate = Handlebars.compile($("#myqueue-template").html());
+				var queueTemplate = Handlebars.compile($("#queue-template").html());
+				var playingTemplate = Handlebars.compile($("#playing-template").html());
+				var self = this;
+				
+	            var showError = function(result) {
+	                $("#error-content").html(result.ErrorMessage);
+	                $("#error-container").show();
+	            };
+
+	            var myListChanged = function(result) {
+	                if (result.Success) {
+	                    self.refreshMyQueue();
+	                }
+	                else {
+	                    showError(result);
+	                }
+	            };
+
+	            this.refreshMyQueue = function() {
+	                DukesService.getMyQueue(function(result) {
+						var myQueue = $("#my-queue");
+						myQueue.empty();
+						if (result.Success) {
+							if (result.QueuedSongs.length > 0) {
+								$("#queue-count").show();
+								$("#queue-count").html(result.QueuedSongs.length);
+							}
+							else {
+								$("#queue-count").hide();
+							}
+							myQueue.append(myQueueTemplate(result));
+							
+							var images = [];
+							myQueue.find("li").each(function() 
+							{
+								var id = $(this).attr("data-song-id");
+								$(this).find("img").each(function() {images[id] = this; });
+								$(this).find("a.remove").click(function() { DukesService.removeFromMyQueue(id,myListChanged); });
+							});
+
+							for (var i=0;i<result.QueuedSongs.length;++i) {
+								(function(song) {
+									LastFM.getAlbumArt(song,function(id,url) {
+										images[id].src = url;
+									});
+								})(result.QueuedSongs[i].Song);
+							}
+						}
+						else {
+							$("#queue-count").hide();
+							showError(result);
+						}
+					});
+	                self.refreshQueue();
+	            };
+
+	            this.refreshQueue = function() {
+	                DukesService.getQueue(function(result) {
+						var queue = $("#queue");
+	                    queue.empty();
+	                    if (result.Success) {
+							if (result.QueuedSongs.length > 0) {
+								$("#play-count").show();
+								$("#play-count").html(result.QueuedSongs.length);
+							}
+							else {
+								$("#play-count").hide();
+							}
+							queue.append(queueTemplate(result));
+
+							var images = [];
+							queue.find("li").each(function() 
+							{
+								var id = $(this).attr("data-song-id");
+								if ($(this).attr("data-submitter") == currentUser.Name) {
+									$(this).addClass("this-user");
+								}
+								$(this).find("img").each(function() {images[id] = this; });
+							});
+
+							for (var i=0;i<result.QueuedSongs.length;++i) {
+								(function(song) {
+									LastFM.getAlbumArt(song,function(id,url) {
+										images[id].src = url;
+									});
+								})(result.QueuedSongs[i].Song);
+							}
+	                    }
+	                    else {
+							$("#play-count").hide();
+	                        showError(result);
+	                    }
+	                });
+	            };
+
+	            this.refreshCurrentSong = function() {
+	                DukesService.getCurrentSong(function(result) {
+	                    if (result.Success) {
+	                        if ((currentSong != null && result.CurrentSong == null) ||
+								(currentSong == null && result.CurrentSong != null) ||
+								(currentSong != null && result.CurrentSong != null && result.CurrentSong.Song.Id != null && currentSong.Id != result.CurrentSong.Song.Id)) {
+	                            currentSong = result.CurrentSong;
+	                            $("#currently-playing-container").css("display", currentSong == null ? "none" : "block");
+	                            
+								if (currentSong) {
+									var player = $("#currently-playing");
+									player.html(playingTemplate(result));					
+									player.find("img").each(function() {
+										var img = this;
+										LastFM.getAlbumArt(currentSong.Song,function(id,url) {
+											img.src = url;
+										});
+									});
+								}
+									
+	                            self.refreshMyQueue();
+	                        }
+	                    }
+	                    else {
+	                        showError(result);
+	                    }
+	                });
+	            };
+
+	            this.refreshPlayerState = function() {
+	                DukesService.getPlayerState(function(result) {
+	                    if (result.Success) {
+	                        currentPlayerState = result.PlayerState;
+	                        var displayClass = result.PlayerState == 0 ? "icon-stop" : (result.PlayerState == 1 ? "icon-play" : "icon-pause");
+							var playerControl = $("#player-control");
+	                        playerControl.removeClass("icon-stop")
+								.removeClass("icon-pause")
+								.removeClass("icon-play")
+								.addClass(displayClass);
+	                    }
+	                    else {
+	                        showError(result);
+	                    }
+	                });
+	            };
+
+
+				$(document).ready(function() {
+					$('#main-nav a').click(function (e) {
+						e.preventDefault();
+						$(this).tab('show');
+					});
+					$('#main-nav a:first').tab('show');
+					
+					Handlebars.registerHelper('list', function(items, options) {
+					  var out = "<ul>";
+					  for(var i=0, l=items.length; i<l; i++) {
+						out += options.fn(items[i]);
+					  }
+					  return out + "</ul>";
+					});
+								
+					DukesService.getUser(function(result) {
+						if (result.Success) {
+							currentUser = result.User;
+						}
+						else {
+							showError(result);
+						}
+					});
+
+					self.refreshMyQueue();
+					self.refreshCurrentSong();
+					self.refreshPlayerState();
+
+					$("#player-control").click(function() {
+						DukesService.setPlayerState(currentPlayerState == 2 ? 1 : 0, function(result) {
+							if (result.Success) {
+								self.refreshPlayerState();
+							}
+							else {
+								showError(result);
+							}
+						});
+					});
+
+					$("#clear-my-queue-button").click(function() {
+						DukesService.clearMyQueue(function(result) {
+							if (result.Success) {
+								self.refreshMyQueue();
+							}
+							else {
+								showError(result);
+							}
+						});
+					});
+
+					$("#search-button").click(function() {
+						DukesService.search(
+							$("#artist-textbox").val(),
+							$("#album-textbox").val(),
+							$("#title-textbox").val(),
+							function(result) {
+								$("#search-results-container").show();
+								var searchResults = $("#search-results");
+								searchResults.empty();
+								if (result.Success) {
+									searchResults.append(searchTemplate(result));
+									
+									var images = [];
+									searchResults.find("li").each(function() {
+										var id = $(this).attr("data-song-id");
+										$(this).find("img").each(function() {images[id] = this; });
+										$(this).find("i").click(function() { DukesService.addSongToMyQueue(id,myListChanged); });
+									});
+
+									for (var i=0;i<result.Songs.length;++i) {
+										(function(song) {
+											LastFM.getAlbumArt(song,function(id,url) {
+												images[id].src = url;
+											});
+										})(result.Songs[i]);
+									}
+									
+								}
+								else {
+									showError(result);
+								}
+							}
+						);
+					});
+
+					$("#select-all-button").click(function() {
+						$("#search-results li input").prop("checked",true);
+					});
+					
+					$("#add-selected-button").click(function() {
+						var ids = new Array();
+						$("#search-results li input").each(function() {
+							var input = $(this);
+							if (input.prop("checked")) {
+								ids.push(input.parent().attr("data-song-id"));
+							}
+						});
+
+						if (ids.length>0) {
+							DukesService.addToMyQueue(ids, myListChanged);
+						}
+					});
+
+					window.setInterval(function(timer) {
+						self.refreshQueue();
+						self.refreshCurrentSong();
+						self.refreshPlayerState();
+					},10000);
+				});
+	        }
+
+	        var dukesUI = new WebUI();
+	    </script>
+	</body>
+</html>

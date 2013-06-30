@@ -1,0 +1,6 @@
+
+*.suo
+/DukesServer/obj
+/DukesServer/bin
+/FModPlayer/obj
+/FModPlayer/bin
