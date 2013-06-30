@@ -58,26 +58,21 @@
             this.MediaTab = new System.Windows.Forms.TabPage();
             this.mediaIndexNotifications = new System.Windows.Forms.TextBox();
             this.IndexButton = new System.Windows.Forms.Button();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.removeMediaSource = new System.Windows.Forms.Button();
             this.mediaSourcesList = new System.Windows.Forms.ListBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.addMediaSourceButton = new System.Windows.Forms.Button();
-            this.mediaSourceTextBox = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.restoreDatabaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.backupDatabaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.AdminTabControl.SuspendLayout();
             this.PlayerTab.SuspendLayout();
             this.UsersTab.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.NewUserGroupBox.SuspendLayout();
             this.MediaTab.SuspendLayout();
-            this.groupBox3.SuspendLayout();
-            this.groupBox2.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -372,10 +367,11 @@
             // 
             // MediaTab
             // 
+            this.MediaTab.Controls.Add(this.removeMediaSource);
+            this.MediaTab.Controls.Add(this.addMediaSourceButton);
             this.MediaTab.Controls.Add(this.mediaIndexNotifications);
             this.MediaTab.Controls.Add(this.IndexButton);
-            this.MediaTab.Controls.Add(this.groupBox3);
-            this.MediaTab.Controls.Add(this.groupBox2);
+            this.MediaTab.Controls.Add(this.mediaSourcesList);
             this.MediaTab.Location = new System.Drawing.Point(4, 22);
             this.MediaTab.Name = "MediaTab";
             this.MediaTab.Size = new System.Drawing.Size(500, 424);
@@ -399,7 +395,7 @@
             // 
             this.IndexButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.IndexButton.Location = new System.Drawing.Point(182, 305);
+            this.IndexButton.Location = new System.Drawing.Point(6, 304);
             this.IndexButton.Name = "IndexButton";
             this.IndexButton.Size = new System.Drawing.Size(130, 23);
             this.IndexButton.TabIndex = 2;
@@ -407,25 +403,10 @@
             this.IndexButton.UseVisualStyleBackColor = true;
             this.IndexButton.Click += new System.EventHandler(this.indexButton_Click);
             // 
-            // groupBox3
-            // 
-            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox3.Controls.Add(this.removeMediaSource);
-            this.groupBox3.Controls.Add(this.mediaSourcesList);
-            this.groupBox3.Location = new System.Drawing.Point(6, 91);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(488, 208);
-            this.groupBox3.TabIndex = 1;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Existing media sources";
-            this.groupBox3.UseCompatibleTextRendering = true;
-            // 
             // removeMediaSource
             // 
             this.removeMediaSource.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.removeMediaSource.Location = new System.Drawing.Point(351, 177);
+            this.removeMediaSource.Location = new System.Drawing.Point(362, 304);
             this.removeMediaSource.Name = "removeMediaSource";
             this.removeMediaSource.Size = new System.Drawing.Size(131, 23);
             this.removeMediaSource.TabIndex = 1;
@@ -439,54 +420,21 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.mediaSourcesList.FormattingEnabled = true;
-            this.mediaSourcesList.Location = new System.Drawing.Point(9, 23);
+            this.mediaSourcesList.Location = new System.Drawing.Point(6, 16);
             this.mediaSourcesList.Name = "mediaSourcesList";
-            this.mediaSourcesList.Size = new System.Drawing.Size(473, 134);
+            this.mediaSourcesList.Size = new System.Drawing.Size(487, 277);
             this.mediaSourcesList.TabIndex = 0;
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox2.Controls.Add(this.addMediaSourceButton);
-            this.groupBox2.Controls.Add(this.mediaSourceTextBox);
-            this.groupBox2.Controls.Add(this.label3);
-            this.groupBox2.Location = new System.Drawing.Point(6, 6);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(488, 79);
-            this.groupBox2.TabIndex = 0;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "New media source";
-            this.groupBox2.UseCompatibleTextRendering = true;
             // 
             // addMediaSourceButton
             // 
             this.addMediaSourceButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.addMediaSourceButton.Location = new System.Drawing.Point(368, 49);
+            this.addMediaSourceButton.Location = new System.Drawing.Point(242, 304);
             this.addMediaSourceButton.Name = "addMediaSourceButton";
             this.addMediaSourceButton.Size = new System.Drawing.Size(114, 23);
             this.addMediaSourceButton.TabIndex = 2;
             this.addMediaSourceButton.Text = "Add media source";
             this.addMediaSourceButton.UseVisualStyleBackColor = true;
             this.addMediaSourceButton.Click += new System.EventHandler(this.addMediaSourceButton_Click);
-            // 
-            // mediaSourceTextBox
-            // 
-            this.mediaSourceTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.mediaSourceTextBox.Location = new System.Drawing.Point(83, 23);
-            this.mediaSourceTextBox.Name = "mediaSourceTextBox";
-            this.mediaSourceTextBox.Size = new System.Drawing.Size(399, 20);
-            this.mediaSourceTextBox.TabIndex = 1;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 26);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(71, 13);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "Media source";
             // 
             // menuStrip1
             // 
@@ -551,9 +499,6 @@
             this.NewUserGroupBox.PerformLayout();
             this.MediaTab.ResumeLayout(false);
             this.MediaTab.PerformLayout();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -577,11 +522,7 @@
         private System.Windows.Forms.TextBox passwordTextBox;
         private System.Windows.Forms.TextBox userNameTextBox;
         private System.Windows.Forms.Button addUserButton;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.TextBox mediaSourceTextBox;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button addMediaSourceButton;
-        private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.ListBox mediaSourcesList;
         private System.Windows.Forms.Button removeMediaSource;
         private System.Windows.Forms.TextBox mediaIndexNotifications;
@@ -604,5 +545,6 @@
         private System.Windows.Forms.TextBox portTextBox;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
+        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
     }
 }

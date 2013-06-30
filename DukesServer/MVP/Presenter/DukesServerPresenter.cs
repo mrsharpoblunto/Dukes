@@ -363,7 +363,6 @@ namespace DukesServer.MVP.Presenter
                 {
                     Database.AddRootDirectory(View.MediaSource);
                     View.MediaDirectories = Database.GetRootDirectories();
-                    View.MediaSource = string.Empty;
                 }
                 catch (Exception ex)
                 {

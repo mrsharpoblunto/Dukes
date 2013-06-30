@@ -137,8 +137,7 @@ namespace DukesServer.MVP.View.impl
 
         public string MediaSource
         {
-            get { return mediaSourceTextBox.Text; }
-            set { mediaSourceTextBox.Text = value; }
+            get { return folderBrowserDialog1.SelectedPath; }
         }
 
         public List<Directory> MediaDirectories
@@ -236,9 +235,12 @@ namespace DukesServer.MVP.View.impl
 
         private void addMediaSourceButton_Click(object sender, EventArgs e)
         {
-            if (OnAddMediaSource!=null)
+            if (folderBrowserDialog1.ShowDialog(this) == DialogResult.OK)
             {
-                OnAddMediaSource(this,new EventArgs());
+                if (OnAddMediaSource != null)
+                {
+                    OnAddMediaSource(this, new EventArgs());
+                }
             }
         }
 

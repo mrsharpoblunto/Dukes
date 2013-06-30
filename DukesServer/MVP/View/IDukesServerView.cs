@@ -45,7 +45,7 @@ namespace DukesServer.MVP.View
         PlayerState PlayerState { set; }
         List<QueuedSong> PlayerQueue { set; }
         bool ForceClose { get; set; }
-        string MediaSource { get; set; }
+        string MediaSource { get; }
         List<Directory> MediaDirectories { set; }
         List<IDatabaseBackup> DatabaseBackups { set; }
         Directory SelectedMediaDirectory { get; }
