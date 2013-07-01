@@ -1,21 +1,19 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 	<head>
-	    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 		<title>Dukes WebUI</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link type="text/css" href="/bootstrap.min.css" rel="stylesheet" />
 		<link type="text/css" href="/bootstrap-responsive.min.css" rel="stylesheet" />
 		<link rel="stylesheet" href="/styles.css" type="text/css" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+		<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
 	</head>
 	<body>
 		<div class="container">
 			<div class="row">
 				<div class="span12">
-					<div class="page-header">
-						<h1>The Dukebox of Hazzard <small>media server</small></h1>
-					</div>
+					<h1>The Dukebox of Hazzard <small>media server</small></h1>
 				</div>
 			</div>
 			<div class="container">
@@ -149,33 +147,33 @@
 		<script type="text/javascript" src="/lastfm.js"></script>  
 		<script type="text/javascript" src="/dukes.js"></script>  
 		
-	    <script type="text/javascript">
-	        var WebUI = function(){
-	            var currentSong = null;
+		<script type="text/javascript">
+			var WebUI = function(){
+				var currentSong = null;
 				var currentPlayerState = 0;
-	            var currentUser = null;
+				var currentUser = null;
 				var searchTemplate = Handlebars.compile($("#search-template").html());
 				var myQueueTemplate = Handlebars.compile($("#myqueue-template").html());
 				var queueTemplate = Handlebars.compile($("#queue-template").html());
 				var playingTemplate = Handlebars.compile($("#playing-template").html());
 				var self = this;
 				
-	            var showError = function(result) {
-	                $("#error-content").html(result.ErrorMessage);
-	                $("#error-container").show();
-	            };
+				var showError = function(result) {
+					$("#error-content").html(result.ErrorMessage);
+					$("#error-container").show();
+				};
 
-	            var myListChanged = function(result) {
-	                if (result.Success) {
-	                    self.refreshMyQueue();
-	                }
-	                else {
-	                    showError(result);
-	                }
-	            };
+				var myListChanged = function(result) {
+					if (result.Success) {
+						self.refreshMyQueue();
+					}
+					else {
+						showError(result);
+					}
+				};
 
-	            this.refreshMyQueue = function() {
-	                DukesService.getMyQueue(function(result) {
+				this.refreshMyQueue = function() {
+					DukesService.getMyQueue(function(result) {
 						var myQueue = $("#my-queue");
 						myQueue.empty();
 						if (result.Success) {
@@ -209,14 +207,14 @@
 							showError(result);
 						}
 					});
-	                self.refreshQueue();
-	            };
+					self.refreshQueue();
+				};
 
-	            this.refreshQueue = function() {
-	                DukesService.getQueue(function(result) {
+				this.refreshQueue = function() {
+					DukesService.getQueue(function(result) {
 						var queue = $("#queue");
-	                    queue.empty();
-	                    if (result.Success) {
+						queue.empty();
+						if (result.Success) {
 							if (result.QueuedSongs.length > 0) {
 								$("#play-count").show();
 								$("#play-count").html(result.QueuedSongs.length);
@@ -243,23 +241,23 @@
 									});
 								})(result.QueuedSongs[i].Song);
 							}
-	                    }
-	                    else {
+						}
+						else {
 							$("#play-count").hide();
-	                        showError(result);
-	                    }
-	                });
-	            };
+							showError(result);
+						}
+					});
+				};
 
-	            this.refreshCurrentSong = function() {
-	                DukesService.getCurrentSong(function(result) {
-	                    if (result.Success) {
-	                        if ((currentSong != null && result.CurrentSong == null) ||
+				this.refreshCurrentSong = function() {
+					DukesService.getCurrentSong(function(result) {
+						if (result.Success) {
+							if ((currentSong != null && result.CurrentSong == null) ||
 								(currentSong == null && result.CurrentSong != null) ||
 								(currentSong != null && result.CurrentSong != null && result.CurrentSong.Song.Id != null && currentSong.Id != result.CurrentSong.Song.Id)) {
-	                            currentSong = result.CurrentSong;
-	                            $("#currently-playing-container").css("display", currentSong == null ? "none" : "block");
-	                            
+								currentSong = result.CurrentSong;
+								$("#currently-playing-container").css("display", currentSong == null ? "none" : "block");
+								
 								if (currentSong) {
 									var player = $("#currently-playing");
 									player.html(playingTemplate(result));					
@@ -271,31 +269,31 @@
 									});
 								}
 									
-	                            self.refreshMyQueue();
-	                        }
-	                    }
-	                    else {
-	                        showError(result);
-	                    }
-	                });
-	            };
+								self.refreshMyQueue();
+							}
+						}
+						else {
+							showError(result);
+						}
+					});
+				};
 
-	            this.refreshPlayerState = function() {
-	                DukesService.getPlayerState(function(result) {
-	                    if (result.Success) {
-	                        currentPlayerState = result.PlayerState;
-	                        var displayClass = result.PlayerState == 0 ? "icon-stop" : (result.PlayerState == 1 ? "icon-play" : "icon-pause");
+				this.refreshPlayerState = function() {
+					DukesService.getPlayerState(function(result) {
+						if (result.Success) {
+							currentPlayerState = result.PlayerState;
+							var displayClass = result.PlayerState == 0 ? "icon-stop" : (result.PlayerState == 1 ? "icon-play" : "icon-pause");
 							var playerControl = $("#player-control");
-	                        playerControl.removeClass("icon-stop")
+							playerControl.removeClass("icon-stop")
 								.removeClass("icon-pause")
 								.removeClass("icon-play")
 								.addClass(displayClass);
-	                    }
-	                    else {
-	                        showError(result);
-	                    }
-	                });
-	            };
+						}
+						else {
+							showError(result);
+						}
+					});
+				};
 
 
 				$(document).ready(function() {
@@ -407,9 +405,9 @@
 						self.refreshPlayerState();
 					},10000);
 				});
-	        }
+			}
 
-	        var dukesUI = new WebUI();
-	    </script>
+			var dukesUI = new WebUI();
+		</script>
 	</body>
 </html>
