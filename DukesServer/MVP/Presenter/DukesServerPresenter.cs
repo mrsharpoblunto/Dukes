@@ -37,13 +37,13 @@ namespace DukesServer.MVP.Presenter
 
         public DukesServerPresenter(IDukesServerView view) : base(view)
         {
-            //if we don't have any database file, create a default one.
+            // if we don't have any database file, create a default one.
             if (!File.Exists(Constants.DatabaseFile))
             {
                 RestoreBackup(new DefaultDatabaseBackup());
             }
 
-            //load or configure the default settings
+            // load or configure the default settings
             _settings = Settings.Load();
             if (_settings==null)
             {
@@ -52,7 +52,7 @@ namespace DukesServer.MVP.Presenter
 
             if (_settings.BackupDB)
             {
-                //make sure the old instance is shutdown
+                // make sure the old instance is shutdown
                 Thread.Sleep(1000);
                 DiskDatabaseBackup.CreateDiskBackup();
                 _settings.BackupDB = false;
@@ -65,7 +65,7 @@ namespace DukesServer.MVP.Presenter
 
             if (_settings.RestoreDB) 
             {
-                //make sure the old instance is shutdown
+                // make sure the old instance is shutdown
                 Thread.Sleep(1000);
                 if (!string.IsNullOrEmpty(_settings.RestoreBackup))
                 {
@@ -84,6 +84,7 @@ namespace DukesServer.MVP.Presenter
                 _settings.Save();
             }
 
+            // hook up event handlers and populate the UI
             view.OnAddUser += ViewOnAddUser;
             view.OnRemoveUser += ViewOnRemoveUser;
             view.OnAddMediaSource += ViewOnAddMediaSource;
@@ -96,7 +97,7 @@ namespace DukesServer.MVP.Presenter
             view.OnChangePort += ViewOnChangePort;
             view.OnBeforeClose += ViewOnClosing;
             view.DatabaseBackups = _backups;
-
+            view.Shown += ViewOnShown;
             try
             {
                 view.Users = Database.GetUsers();
@@ -117,20 +118,35 @@ namespace DukesServer.MVP.Presenter
                 View.CloseView();
                 return;
             }
+            Database.OnQueueChanged += (s, e) => view.Invoke(() => view.PlayerQueue = Database.GetQueue());
+            var hostEntry = Dns.GetHostEntry(Dns.GetHostName());
+            var ip = (
+                       from addr in hostEntry.AddressList
+                       where addr.AddressFamily.ToString() == "InterNetwork"
+                       select addr.ToString()
+                ).FirstOrDefault();
+            view.ServiceUrl = "http://" + ip;
+            view.PlayerState = Player.Current.State;
+            view.Port = _settings.Port;
 
+            // start up the web UI http server
 #if DEBUG
             _webUIServer = new WebUIHttpServer(false);
 #else
             _webUIServer = new WebUIHttpServer(true);
 #endif
             _webUIServer.Port = _settings.Port;
+            _webUIServer.OnListenError += (s, e) =>
+            {
+                MessageBox.Show("Dukes was unable to set up an HTTP Listener on port " + _settings.Port + " another program may be using it. Please try a different port");
+            };
+            _webUIServer.OnError += (s, e) =>
+            {
+                view.Invoke(() => view.PlayerUpdate(new PlayerMessageArgs() { Message = "WebUI server encountered an error and will restart" }));
+            };
             _webUIServer.Start();
 
-            Database.OnQueueChanged += (s, e) => view.Invoke(() => view.PlayerQueue = Database.GetQueue());
-            view.ServiceUrl = "http://" + Dns.GetHostName();
-            view.PlayerState = Player.Current.State;
-            view.Port = _settings.Port;
-
+            // hook up the player events
             Player.Current.OnPaused += (s, e) => view.Invoke(() => view.PlayerState = Player.Current.State);
             Player.Current.OnPlaying += (s, e) => view.Invoke(() => view.PlayerState = Player.Current.State);
             Player.Current.OnStopped += (s, e) => view.Invoke(() => view.PlayerState = Player.Current.State);
@@ -148,6 +164,10 @@ namespace DukesServer.MVP.Presenter
             _onIndexTimer = new System.Windows.Forms.Timer {Interval = 3600000};
             _onIndexTimer.Tick += OnIndex;
             _onIndexTimer.Start();
+        }
+
+        private void ViewOnShown(object state, EventArgs e)
+        {
         }
 
         private void ViewOnClosing(object state, CancelEventArgs e)

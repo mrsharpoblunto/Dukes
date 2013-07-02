@@ -71,6 +71,8 @@ namespace DukesServer.MVP.Model.HttpServer
 
         public void Process()
         {
+            _parent.OnResponseBegin(this);
+
             _myReadBuffer = new byte[_client.ReceiveBufferSize];
             String myCompleteMessage = string.Empty;
 
@@ -259,8 +261,8 @@ namespace DukesServer.MVP.Model.HttpServer
             {
                 ns.Close();
                 _client.Close();
+                _parent.OnResponseEnd(this);
             }
-            _parent.OnResponseComplete(this);
         }
     }
 }

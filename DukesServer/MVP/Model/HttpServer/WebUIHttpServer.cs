@@ -23,10 +23,6 @@ namespace DukesServer.MVP.Model.HttpServer
             _cache = new Dictionary<string, byte[]>();
         }
 
-        public override void OnStart()
-        {
-        }
-
         public override void OnResponse(ref HttpRequestStruct request, ref HttpResponseStruct response)
         {
             try
