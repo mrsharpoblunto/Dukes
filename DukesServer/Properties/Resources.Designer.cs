@@ -63,9 +63,9 @@ namespace DukesServer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
-        internal static System.Drawing.Icon dukes_connected {
+        internal static System.Drawing.Icon dukes {
             get {
-                object obj = ResourceManager.GetObject("dukes_connected", resourceCulture);
+                object obj = ResourceManager.GetObject("dukes", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
             }
         }

@@ -209,11 +209,19 @@ namespace DukesServer.MVP.View.impl
 
         public void MediaIndexUpdate(IndexingProgressEventArgs e)
         {
+            if (mediaIndexNotifications.Lines.Length > 100)
+            {
+                mediaIndexNotifications.Clear();
+            }
             mediaIndexNotifications.AppendText(e.Message + "\r\n");
         }
 
         public void PlayerUpdate(PlayerMessageArgs e)
         {
+            if (playerNotificationsTextBox.Lines.Length > 100)
+            {
+                playerNotificationsTextBox.Clear();
+            }
             playerNotificationsTextBox.AppendText(e.Message + "\r\n");
         }
 

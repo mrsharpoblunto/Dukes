@@ -52,5 +52,19 @@ namespace DukesServer.MVP.View.impl
                 Closed(this, new EventArgs());
             }
         }
+
+        private void InitializeComponent()
+        {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ViewBase));
+            this.SuspendLayout();
+            // 
+            // ViewBase
+            // 
+            this.ClientSize = new System.Drawing.Size(284, 262);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Name = "ViewBase";
+            this.ResumeLayout(false);
+
+        }
     }
 }

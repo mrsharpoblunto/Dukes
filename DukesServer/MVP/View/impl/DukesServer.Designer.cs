@@ -56,11 +56,11 @@
             this.userNameTextBox = new System.Windows.Forms.TextBox();
             this.addUserButton = new System.Windows.Forms.Button();
             this.MediaTab = new System.Windows.Forms.TabPage();
+            this.removeMediaSource = new System.Windows.Forms.Button();
+            this.addMediaSourceButton = new System.Windows.Forms.Button();
             this.mediaIndexNotifications = new System.Windows.Forms.TextBox();
             this.IndexButton = new System.Windows.Forms.Button();
-            this.removeMediaSource = new System.Windows.Forms.Button();
             this.mediaSourcesList = new System.Windows.Forms.ListBox();
-            this.addMediaSourceButton = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.restoreDatabaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -379,6 +379,28 @@
             this.MediaTab.Text = "Media Sources";
             this.MediaTab.UseVisualStyleBackColor = true;
             // 
+            // removeMediaSource
+            // 
+            this.removeMediaSource.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.removeMediaSource.Location = new System.Drawing.Point(362, 304);
+            this.removeMediaSource.Name = "removeMediaSource";
+            this.removeMediaSource.Size = new System.Drawing.Size(131, 23);
+            this.removeMediaSource.TabIndex = 1;
+            this.removeMediaSource.Text = "Remove media source";
+            this.removeMediaSource.UseVisualStyleBackColor = true;
+            this.removeMediaSource.Click += new System.EventHandler(this.removeMediaSource_Click);
+            // 
+            // addMediaSourceButton
+            // 
+            this.addMediaSourceButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.addMediaSourceButton.Location = new System.Drawing.Point(242, 304);
+            this.addMediaSourceButton.Name = "addMediaSourceButton";
+            this.addMediaSourceButton.Size = new System.Drawing.Size(114, 23);
+            this.addMediaSourceButton.TabIndex = 2;
+            this.addMediaSourceButton.Text = "Add media source";
+            this.addMediaSourceButton.UseVisualStyleBackColor = true;
+            this.addMediaSourceButton.Click += new System.EventHandler(this.addMediaSourceButton_Click);
+            // 
             // mediaIndexNotifications
             // 
             this.mediaIndexNotifications.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
@@ -403,17 +425,6 @@
             this.IndexButton.UseVisualStyleBackColor = true;
             this.IndexButton.Click += new System.EventHandler(this.indexButton_Click);
             // 
-            // removeMediaSource
-            // 
-            this.removeMediaSource.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.removeMediaSource.Location = new System.Drawing.Point(362, 304);
-            this.removeMediaSource.Name = "removeMediaSource";
-            this.removeMediaSource.Size = new System.Drawing.Size(131, 23);
-            this.removeMediaSource.TabIndex = 1;
-            this.removeMediaSource.Text = "Remove media source";
-            this.removeMediaSource.UseVisualStyleBackColor = true;
-            this.removeMediaSource.Click += new System.EventHandler(this.removeMediaSource_Click);
-            // 
             // mediaSourcesList
             // 
             this.mediaSourcesList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -424,17 +435,6 @@
             this.mediaSourcesList.Name = "mediaSourcesList";
             this.mediaSourcesList.Size = new System.Drawing.Size(487, 277);
             this.mediaSourcesList.TabIndex = 0;
-            // 
-            // addMediaSourceButton
-            // 
-            this.addMediaSourceButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.addMediaSourceButton.Location = new System.Drawing.Point(242, 304);
-            this.addMediaSourceButton.Name = "addMediaSourceButton";
-            this.addMediaSourceButton.Size = new System.Drawing.Size(114, 23);
-            this.addMediaSourceButton.TabIndex = 2;
-            this.addMediaSourceButton.Text = "Add media source";
-            this.addMediaSourceButton.UseVisualStyleBackColor = true;
-            this.addMediaSourceButton.Click += new System.EventHandler(this.addMediaSourceButton_Click);
             // 
             // menuStrip1
             // 

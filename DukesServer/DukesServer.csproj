@@ -12,7 +12,7 @@
     <AssemblyName>DukesServer</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <ApplicationIcon>dukes-connected.ico</ApplicationIcon>
+    <ApplicationIcon>dukes.ico</ApplicationIcon>
     <IsWebBootstrapper>true</IsWebBootstrapper>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <FileUpgradeFlags>
@@ -168,6 +168,9 @@
       <DependentUpon>DukesServer.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="MVP\View\impl\ViewBase.resx">
+      <DependentUpon>ViewBase.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -179,7 +182,6 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <None Include="App.config" />
-    <None Include="dukes-connected.ico" />
     <EmbeddedResource Include="Resources\dukes-restore.db" />
     <None Include="app.manifest" />
     <None Include="MVP\Model\Model.lsmodel">
@@ -190,7 +192,6 @@
       <DependentUpon>Model.lsmodel</DependentUpon>
     </None>
     <None Include="packages.config" />
-    <None Include="Resources\dukes-connected.ico" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -234,6 +235,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="dukes.ico" />
     <Content Include="WebUI\apple-touch-icon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -276,9 +278,9 @@
     <Content Include="x86\SQLite.Interop.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="WebUI\favicon.ico">
+    <Content Include="WebUI\favicon.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

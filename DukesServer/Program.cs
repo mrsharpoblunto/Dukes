@@ -39,7 +39,7 @@ namespace DukesServer
 
             _notifyIcon = new NotifyIcon
                               {
-                                  Icon = Resources.dukes_connected,
+                                  Icon = Resources.dukes,
                                   Text = "The Dukebox of Hazzard",
                                   Visible = true,
                                   ContextMenu = GetContextMenu()
